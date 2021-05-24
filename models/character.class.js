@@ -111,7 +111,7 @@ class Character extends MovableObject {
                 this.bottle += 1
                 this.world.bottleBar.setValue(this.bottle);
             }
-        }, 500);
+        }, 400);
     }
 
     animateJump(imageArray, time) {

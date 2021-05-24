@@ -16,7 +16,7 @@ class Bottle extends MovableObject {
         this.speed = 15;
         this.ground = 360;
         this.gravityValue = 0.2;
-        this.speedY = 4;
+        this.speedY = 2;
         this.world = world;
         this.addImagesToArray([
             './img/6.botella/Rotación/Mesa de trabajo 1 copia 3.png',
@@ -62,13 +62,14 @@ class Bottle extends MovableObject {
     animateBroken() {
         let counter = 0
         let lenght = this.IMAGES_BROKEN.length;
-        setInterval(() => {
+        let intervall = setInterval(() => {
             if (this.isBroken) {
                 this.img = this.IMAGES_BROKEN[counter];
                 if (lenght -1 > counter) {
                     counter++;
                 } else {
                     this.world.deleteBottle(this);
+                    clearInterval(intervall);
                 }
             }
             
