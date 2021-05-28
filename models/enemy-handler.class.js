@@ -4,6 +4,7 @@ class EnemyHandler {
 
     character;
     enemys = [];
+    levelBlock = 1;
     constructor(character) {
         this.character = character;
 
@@ -11,20 +12,24 @@ class EnemyHandler {
 
     }
 
+    restart() {
+        this.enemys = [];
+        this.levelBlock = 1;
+    }
+
     repositionEnemys() {
-        let levelBlock = 1;
         let blockLength = 1500;
         setInterval(() => {
             let playerPosX = this.character.x;
-            if (playerPosX > levelBlock*blockLength) {
-                levelBlock++;
-                console.log(levelBlock);
-                this.createChicken(levelBlock);
-                if (levelBlock % 5 == 0){
+            if (playerPosX > this.levelBlock * blockLength) {
+                this.levelBlock++;
+                console.log(this.levelBlock);
+                this.createChicken(this.levelBlock);
+                if (this.levelBlock % 5 == 0) {
                     this.createBoss();
                 }
             }
-           
+
             this.deleteEnemysTooFarAway();
             this.checkToDeleteDeadEnemys();
         }, 100);

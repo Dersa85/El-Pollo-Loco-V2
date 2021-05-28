@@ -12,6 +12,8 @@ class World {
     hpBar = new StatusBar('hp');
     bottleBar = new StatusBar('bottle');
     keyboard = new Keyboard();
+    endScreen = new EndScreen(this);
+    startScreen = new StartScreen(this);
     cameraOffsetX = 0;
 
     constructor(canvas) {
@@ -19,12 +21,17 @@ class World {
         this.ctx = canvas.getContext('2d');
 
         this.keyboard = new Keyboard();
-        this.character = new Character(this, this.hpBar, this.bottleBar);
+        this.character = new Character(this);
         this.enemyHandler = new EnemyHandler(this.character);
         this.backgroundHandler = new BackgroundHandler(this.character);
         
         this.checkCollisions();
         this.draw();
+    }
+
+
+    start() {
+        this.enemyHandler.restart();
     }
 
     checkCollisions() {
@@ -61,19 +68,28 @@ class World {
     }
 
     draw() {
-        this.cameraOffsetX = -this.character.x + 200;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.cameraOffsetX, 0);
-
-        this.drawObjectsArray(this.backgroundHandler.getBackgrounds());
-        this.drawObjectsArray(this.enemyHandler.getEnemys());
-        this.drawObjectsArray(this.bottles);
-        this.drawObject(this.character);
         
-        this.drawBars();
-
-        this.ctx.translate(-this.cameraOffsetX, 0);
-
+        if (this.endScreen.isActive) {
+            this.drawObject(this.endScreen);
+            this.endScreen.drawText(this.ctx);
+        } else if(this.startScreen.isActive) {
+            this.drawObject(this.startScreen);
+            this.startScreen.drawText(this.ctx);
+        } else {
+            this.cameraOffsetX = -this.character.x + 200;
+            this.ctx.translate(this.cameraOffsetX, 0);
+    
+            this.drawObjectsArray(this.backgroundHandler.getBackgrounds());
+            this.drawObjectsArray(this.enemyHandler.getEnemys());
+            this.drawObjectsArray(this.bottles);
+            this.drawObject(this.character);
+            
+            this.drawBars();
+    
+            this.ctx.translate(-this.cameraOffsetX, 0);
+        }
+        
         let self = this;
         requestAnimationFrame(() => {   // Loop this.draw()
             self.draw();
@@ -125,5 +141,9 @@ class World {
     deleteBottle(toFind) {
         let index = this.bottles.indexOf(toFind);
         this.bottles.splice(index, 1);
+    }
+
+    gameOver() {
+        this.endScreen.activate(this.character.x);
     }
 }

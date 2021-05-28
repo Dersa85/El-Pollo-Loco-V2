@@ -107,6 +107,14 @@ class Character extends MovableObject {
 
     }
 
+    restart() {
+        this.hp = 5;
+        this.world.hpBar.setValue(this.hp);
+        this.x = 250;
+        this.maxLeftX = -500;
+        this.lastHit = 0;
+    }
+
     applyhunger() {
         setInterval(() => {
             this.hp -= 1;
@@ -172,6 +180,11 @@ class Character extends MovableObject {
                 this.img = imageArray[counter];
                 if (counter < length -1) {
                     counter++;
+
+                } else if (counter == length - 1) {
+                    this.world.gameOver();
+                    counter = 0;
+                    this.restart();
                 }
             }
         }, time);

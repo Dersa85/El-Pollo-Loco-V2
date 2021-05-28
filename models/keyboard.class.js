@@ -43,7 +43,7 @@ class Keyboard {
         return this.LEFT && !this.RIGHT;
     }
     isNothingPressed() {
-        return !(this.RIGHT || this.LEFT);
+        return !(this.RIGHT || this.LEFT || this.SPACE || this.UP);
     }
     isPressedUp() {
         return this.UP;
