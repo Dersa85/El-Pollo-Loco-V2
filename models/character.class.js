@@ -228,21 +228,21 @@ class Character extends MovableObject {
 
     movingControl(keyboard) {
         setInterval(() => {
-            if (keyboard.isPressedLeft() && this.maxLeftX <= this.x) {
+            if (keyboard.isPressedLeft() && this.maxLeftX <= this.x && !this.isDead()) {
                 this.mirrorImg = true;
                 this.moveLeft();
-            } else if (keyboard.isPressedRight()) {
+            } else if (keyboard.isPressedRight() && !this.isDead()) {
                 this.mirrorImg = false;
                 this.moveRight();
                 if (this.maxLeftX < this.x - 500) {
                     this.maxLeftX = this.x - 500;
                 }
             }
-            if (keyboard.isPressedUp() && !this.isInTheAir()) {
+            if (keyboard.isPressedUp() && !this.isInTheAir() && !this.isDead()) {
                 this.speedY += this.jumpPower;
                 this.SOUND_JUMP.play();
             }
-            if (keyboard.isPressedFire() && this.bottle == 5) {
+            if (keyboard.isPressedFire() && this.bottle == 5 && !this.isDead()) {
                 console.log('FIRE');
                 this.bottle = 0;
                 this.world.bottleBar.setValue(this.bottle);

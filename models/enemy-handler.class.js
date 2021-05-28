@@ -18,7 +18,7 @@ class EnemyHandler {
     }
 
     repositionEnemys() {
-        let blockLength = 1500;
+        let blockLength = 2000;
         setInterval(() => {
             let playerPosX = this.character.x;
             if (playerPosX > this.levelBlock * blockLength) {
@@ -50,7 +50,7 @@ class EnemyHandler {
         let playerPosX = this.character.x;
         for (let i = 0; i < counter; i++) {
             let chicken = new Chicken();
-            chicken.x = playerPosX + 800 + Math.random() * 1000;
+            chicken.x = playerPosX + 800 + Math.random() * 2000;
             this.enemys.push(chicken);
         }
     }

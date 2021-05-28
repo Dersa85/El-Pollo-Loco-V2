@@ -53,14 +53,14 @@ class BackgroundHandler {
 
     repositionBackground(array) {
         let counter = array.length;
-        let width = array[0].width - 1;
-        let half = Math.floor(counter / 2);
+        let imgWidth = array[0].width - 1;
+        let halfCounter = Math.floor(counter / 2);
         let characterPosX = this.originObject.x;
-        let offsetMultiplicator = Math.floor(characterPosX / width);
+        let offsetMultiplicator = Math.round(characterPosX / imgWidth);
         let index = 0;
-        for (let i = -half; i < half + 1; i++) {
+        for (let i = -halfCounter; i < halfCounter + 1; i++) {
             let paralax = array[index].getParalaxOffset(characterPosX);
-            array[index].x = width * i + offsetMultiplicator * width + paralax - 1;
+            array[index].x = imgWidth * i + offsetMultiplicator * imgWidth + paralax;
             index++;
         }
     }
