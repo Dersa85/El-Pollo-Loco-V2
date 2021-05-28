@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
     gravityValue = 0.6;
     ground = 0;
     mirrorImg = false;
+    hp = 1;
 
     constructor() {
         super()
@@ -45,5 +46,17 @@ class MovableObject extends DrawableObject {
         ctx.strokeStyle = this.rectColor;
         ctx.rect(x, y, width, height);
         ctx.stroke();
+    }
+
+    checkCollideWith(object) {
+        return this.x + this.width > object.x &&
+            this.y + this.height > object.y &&
+            this.x < object.x &&
+            this.y < object.y + object.height &&
+            !object.isDead();
+    }
+
+    isDead() {
+        return this.hp <= 0;
     }
 }

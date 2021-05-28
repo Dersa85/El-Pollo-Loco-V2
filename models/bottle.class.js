@@ -68,8 +68,8 @@ class Bottle extends MovableObject {
                 if (lenght -1 > counter) {
                     counter++;
                 } else {
-                    this.world.deleteBottle(this);
                     clearInterval(intervall);
+                    this.world.deleteBottle(this);
                 }
             }
             

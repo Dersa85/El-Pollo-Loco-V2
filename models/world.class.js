@@ -29,18 +29,36 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            let enemys = this.enemyHandler.getEnemys();
-            for (let i = 0; i < enemys.length; i++) {
-                let isCollide = this.character.checkCollideWith(enemys[i]);
-                if (isCollide) {
-                    console.log('COLLIDED');
-                    this.character.damage();
-                }
-                
+            if (this.checkCollisionToEnemys(this.character)) {
+                this.character.damage()
             }
-        }, 200);
+            for (let i = 0; i < this.bottles.length; i++) {
+                const bottle = this.bottles[i];
+                if (!bottle.isBroken) {
+                    let hittetEnemy = this.checkCollisionToEnemys(bottle);
+                    if (hittetEnemy) {
+                        bottle.isBroken = true;
+                        hittetEnemy.damage();
+                        if (hittetEnemy.isDead()) {
+                            this.character.eat();
+                        }
+                    }
+                }
+            }
+        }, 50);
     }
     
+    checkCollisionToEnemys(object) {
+        let enemys = this.enemyHandler.getEnemys();
+        for (let i = 0; i < enemys.length; i++) {
+            let isCollide = object.checkCollideWith(enemys[i]);
+            if (isCollide) {
+                console.log('COLLIDED WITH ENEMY');
+                return enemys[i];
+            }
+        }
+        return null;
+    }
 
     draw() {
         this.cameraOffsetX = -this.character.x + 200;
@@ -102,7 +120,6 @@ class World {
 
     createBottle(x, y, directionRight) {
         this.bottles.push(new Bottle(x, y, directionRight, this));
-        console.log(this.bottles);
     }
 
     deleteBottle(toFind) {

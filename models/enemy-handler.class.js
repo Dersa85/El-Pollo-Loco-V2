@@ -3,12 +3,10 @@
 class EnemyHandler {
 
     character;
-    chickens = [];
-    boss;
+    enemys = [];
     constructor(character) {
         this.character = character;
-        this.boss = new Boss();
-        this.chickens.push(this.boss);
+        this.enemys.push(new Boss());
 
         this.repositionEnemys();
 
@@ -26,16 +24,17 @@ class EnemyHandler {
             }
             
             this.deleteEnemysTooFarAway();
+            this.checkToDeleteDeadEnemys();
 
-        }, 1000);
+        }, 100);
         
     }
 
     deleteEnemysTooFarAway() {
         let playerPosX = this.character.x;
-        while (this.chickens.length > 0) {
-            if (playerPosX - this.chickens[0].x > 2000) {
-                this.chickens.splice(0, 1);
+        while (this.enemys.length > 0) {
+            if (playerPosX - this.enemys[0].x > 2000) {
+                this.enemys.splice(0, 1);
             } else {
                 break
             }
@@ -47,12 +46,32 @@ class EnemyHandler {
         for (let i = 0; i < counter; i++) {
             let chicken = new Chicken();
             chicken.x = playerPosX + 800 + Math.random() * 1000;
-            this.chickens.push(chicken);
+            this.enemys.push(chicken);
         }
     }
 
     getEnemys() {
-        return this.chickens;
+        return this.enemys;
     }
 
+    checkToDeleteDeadEnemys() {
+        let enemys = this.enemys;
+        for (let i = enemys.length - 1; i >= 0; i--) {
+            let enemy = enemys[i];
+            if (this.canEnemyDelete(enemy)) {
+                console.log(i);
+                enemys.splice(i, 1);
+            }
+        }
+    }
+
+    canEnemyDelete(enemy) {
+        if (enemy.deadTime) {
+            let nowTime = Date.now();
+            let canDelete = nowTime - enemy.deadTime > 1000;
+            console.log(nowTime - enemy.deadTime > 1000);
+            return canDelete;
+        }
+        return false;
+    }
 }

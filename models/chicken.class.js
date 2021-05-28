@@ -2,6 +2,7 @@
 
 class Chicken extends MovableObject {
 
+    deadTime = 0;
     IMAGES_ANIMATION = [];
     constructor() {
         super();
@@ -10,7 +11,7 @@ class Chicken extends MovableObject {
         this.ground = 350;
         this.height = 70;
         this.width = 70;
-        this.speed = 0.6 + Math.random() * 0.1;
+        this.speed = 1.6 + Math.random() * 0.3;
         this.addImagesToArray([
             './img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/1.Ga_paso_derecho.png',
             './img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/2-Ga_centro.png',
@@ -19,13 +20,20 @@ class Chicken extends MovableObject {
 
         this.animate(300);
         this.goLeft();
-
     }
 
     animate(time) {
         let counter = 0
         let lenght = this.IMAGES_ANIMATION.length;
         setInterval(() => {
+            if (this.isDead()) {
+                let img = new Image();
+                img.src = './img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/4.G_muerte.png';
+                if (!this.deadTime) {
+                    this.deadTime = Date.now();
+                }
+                return;
+            }
             this.img = this.IMAGES_ANIMATION[counter % lenght];
             counter++;
         }, time);
@@ -33,7 +41,17 @@ class Chicken extends MovableObject {
 
     goLeft() {
         setInterval(() => {
-            this.moveLeft();
+            if (!this.isDead()) {
+                this.moveLeft();
+            }
         }, 1000/60);
     }
+
+    damage() {
+        this.hp--;
+    }
+
+    
+
+    
 }

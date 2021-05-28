@@ -14,7 +14,7 @@ class Character extends MovableObject {
 
     maxLeftX = -500;
     
-    hp = 5;
+    
     bottle = 5;
     hpBar;
     bottleBar;
@@ -29,6 +29,7 @@ class Character extends MovableObject {
         this.height = 220;
         this.width = 130;
         this.world = world;
+        this.hp = 5;
         
         this.addImagesToArray([ // idle animation
             './img/2.Secuencias_Personaje-Pepe-correccion/1.IDLE/IDLE/I-2.png',
@@ -217,12 +218,7 @@ class Character extends MovableObject {
         }, 1000/60);
     }
 
-    checkCollideWith(object) {
-        return this.x + this.width > object.x &&
-            this.y + this.height > object.y &&
-            this.x < object.x &&
-            this.y < object.y + object.height;
-    }
+    
 
     damage() {
         if (this.isHurt()) {
@@ -235,12 +231,16 @@ class Character extends MovableObject {
         }
     }
 
-    isDead() {
-        return this.hp <= 0;
-    }
-
     isHurt() {
         let timepassed = Date.now() - this.lastHit;
         return timepassed < 1000;
+    }
+
+    eat() {
+        if (this.hp >= 5) {
+            return;
+        }
+        this.hp++;
+        this.world.hpBar.setValue(this.hp);
     }
 }

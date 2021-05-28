@@ -6,8 +6,11 @@ class Boss extends MovableObject {
     IMAGES_WALK = [];
     IMAGES_IDLE = [];
     IMAGES_ATTACK = [];
-    state = 'ATTACK' // WALK, IDLE
+    IMAGES_DEAD = [];
 
+    state = 'ATTACK' // WALK, IDLE
+    deadTime = 0;
+    
     constructor() {
         super()
         this.rectColor = 'red'
@@ -40,12 +43,18 @@ class Boss extends MovableObject {
             './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G17.png',
             './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G18.png',
             './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G19.png',
-            './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G20.png',
+            './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G20.png'
         ], this.IMAGES_ATTACK);
+        this.addImagesToArray([
+            './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G24.png',
+            './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G25.png',
+            './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G26.png'
+        ], this.IMAGES_DEAD);
 
         this.animate(this.IMAGES_WALK, 300, 'WALK');
         this.animate(this.IMAGES_IDLE, 400, 'IDLE');
         this.animate(this.IMAGES_ATTACK, 300, 'ATTACK');
+        this.animate(this.IMAGES_DEAD, 340, 'DEAD');
     }
 
     animate(animation, time, stateWanted) {
@@ -59,5 +68,14 @@ class Boss extends MovableObject {
                 counter = 0;
             }
         }, time);
+    }
+
+    damage() {
+        this.hp--;
+        if (this.isDead() && !this.deadTime) {
+            this.state = 'DEAD';
+            this.deadTime = Date.now();
+            console.log(this.deadTime)
+        }
     }
 }
