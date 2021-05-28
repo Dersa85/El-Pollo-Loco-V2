@@ -15,7 +15,6 @@ class EndScreen extends DrawableObject {
         this.width = 800;
     }
 
-
     drawText(ctx) {
         ctx.font = '20px Comic Sans MS';
         ctx.fillStyle = "white";
@@ -24,13 +23,12 @@ class EndScreen extends DrawableObject {
         ctx.fillText('Come on, do it better !!!', 50, 110);
     }
 
-
     activate(range) {
         this.runRange = range;
         this.isActive = true;
         setTimeout(() => {
             this.world.startScreen.activate();
             this.isActive = false;
-        }, 2000);
+        }, 3500);
     }
 }

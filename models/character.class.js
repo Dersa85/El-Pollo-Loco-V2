@@ -14,10 +14,15 @@ class Character extends MovableObject {
 
     maxLeftX = -500;
     
-    
     bottle = 5;
     hpBar;
     bottleBar;
+
+    SOUND_JUMP = new Audio('./sound/jump.mp3');
+    SOUND_LEFT_FOOT = new Audio('./sound/left-foot.mp3');
+    SOUND_RIGHT_FOOT = new Audio('./sound/right-foot.mp3');
+    SOUND_HUNGER = new Audio('./sound/hunger.mp3');
+    SOUND_EAT = new Audio('./sound/eat.mp3');
 
     constructor(world) {
         super();
@@ -117,8 +122,11 @@ class Character extends MovableObject {
 
     applyhunger() {
         setInterval(() => {
-            this.hp -= 1;
-            this.world.hpBar.setValue(this.hp);
+            if (!this.isDead() && this.world.isPlaying()) {
+                this.hp -= 1;
+                this.world.hpBar.setValue(this.hp);
+                this.SOUND_HUNGER.play();
+            }
         }, 10000);
     }
 
@@ -153,6 +161,11 @@ class Character extends MovableObject {
             if ((keyboard.isPressedRight() || keyboard.isPressedLeft()) && !this.isInTheAir() && !this.isDead() && !this.isHurt()) {
                 this.img = imageArray[counter % lenght];
                 counter++;
+                if (counter % 4 == 0) {
+                    this.SOUND_LEFT_FOOT.play();
+                } else if (counter % 4 == 2) {
+                    this.SOUND_RIGHT_FOOT.play();
+                }
             } else {
                 counter = 0;
             }
@@ -176,7 +189,7 @@ class Character extends MovableObject {
         let counter = 0;
         let length = imageArray.length;
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDead() && this.world.isPlaying()) {
                 this.img = imageArray[counter];
                 if (counter < length -1) {
                     counter++;
@@ -184,7 +197,6 @@ class Character extends MovableObject {
                 } else if (counter == length - 1) {
                     this.world.gameOver();
                     counter = 0;
-                    this.restart();
                 }
             }
         }, time);
@@ -206,7 +218,7 @@ class Character extends MovableObject {
     setKeyboardControl(keyboard) {
         this.movingControl(keyboard);
 
-        this.animateWalk(this.IMAGES_WALK, 190, keyboard);
+        this.animateWalk(this.IMAGES_WALK, 200, keyboard);
         this.animateIdle(this.IMAGES_IDLE, 400, keyboard);
         this.animateJump(this.IMAGES_JUMP, 100);
         this.animateHurt(this.IMAGES_HURT, 150);
@@ -228,7 +240,7 @@ class Character extends MovableObject {
             }
             if (keyboard.isPressedUp() && !this.isInTheAir()) {
                 this.speedY += this.jumpPower;
-                console.log(this.speedY);
+                this.SOUND_JUMP.play();
             }
             if (keyboard.isPressedFire() && this.bottle == 5) {
                 console.log('FIRE');
@@ -261,6 +273,7 @@ class Character extends MovableObject {
         if (this.hp >= 5) {
             return;
         }
+        this.SOUND_EAT.play();
         this.hp++;
         this.world.hpBar.setValue(this.hp);
     }

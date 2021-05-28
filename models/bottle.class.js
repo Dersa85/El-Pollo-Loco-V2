@@ -9,6 +9,8 @@ class Bottle extends MovableObject {
 
     isBroken = false;
 
+    SOUND_THROW = new Audio('./sound/throw.mp3')
+    SOUND_BROKEN = new Audio('./sound/bottle-broken.mp3')
     constructor(x, y, directionRight, world) {
         super();
         this.x = x;
@@ -37,6 +39,7 @@ class Bottle extends MovableObject {
         this.flying(directionRight);
         this.applyGravity();
         this.checkHitTheGround();
+        this.SOUND_THROW.play();
     }
 
     checkHitTheGround() {
@@ -64,6 +67,7 @@ class Bottle extends MovableObject {
         let lenght = this.IMAGES_BROKEN.length;
         let intervall = setInterval(() => {
             if (this.isBroken) {
+                this.SOUND_BROKEN.play();
                 this.img = this.IMAGES_BROKEN[counter];
                 if (lenght -1 > counter) {
                     counter++;

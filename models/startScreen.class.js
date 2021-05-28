@@ -16,6 +16,7 @@ class StartScreen extends DrawableObject {
     }
 
     drawText(ctx) {
+        ctx.fillStyle = "black";
         ctx.font = '20px Comic Sans MS';
         ctx.fillText('Run far end eat enough', 10, 30);
         ctx.fillText("the hunger don't stop", 10, 60);

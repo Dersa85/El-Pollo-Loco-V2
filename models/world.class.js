@@ -31,6 +31,7 @@ class World {
 
 
     start() {
+        this.character.restart();
         this.enemyHandler.restart();
     }
 
@@ -145,5 +146,9 @@ class World {
 
     gameOver() {
         this.endScreen.activate(this.character.x);
+    }
+
+    isPlaying() {
+        return !(this.startScreen.isActive || this.endScreen.isActive);
     }
 }

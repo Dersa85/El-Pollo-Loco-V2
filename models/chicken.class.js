@@ -5,6 +5,8 @@ class Chicken extends MovableObject {
     deadTime = 0;
     IMAGES_ANIMATION = [];
     IMAGES_DEAD = [];
+
+
     constructor() {
         super();
         this.rectColor = 'red';
