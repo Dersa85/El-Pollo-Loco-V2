@@ -19,6 +19,7 @@ class Boss extends MovableObject {
         this.ground = 140;
         this.height = 300;
         this.width = 250;
+        this.hp = 3;
         this.addImagesToArray([
             './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/1.Caminata/G1.png',
             './img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/1.Caminata/G2.png',

@@ -103,7 +103,15 @@ class Character extends MovableObject {
         
         this.setKeyboardControl(world.keyboard);
         this.applyBottleRegeneration();
+        this.applyhunger();
 
+    }
+
+    applyhunger() {
+        setInterval(() => {
+            this.hp -= 1;
+            this.world.hpBar.setValue(this.hp);
+        }, 10000);
     }
 
     applyBottleRegeneration() {
@@ -112,7 +120,7 @@ class Character extends MovableObject {
                 this.bottle += 1
                 this.world.bottleBar.setValue(this.bottle);
             }
-        }, 400);
+        }, 600);
     }
 
     animateJump(imageArray, time) {
